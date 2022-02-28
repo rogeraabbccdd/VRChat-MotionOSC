@@ -34,3 +34,28 @@ export enum Pose2DLandmark {
   LEFT_FOOT_INDEX,
   RIGHT_FOOT_INDEX
 }
+
+// https://google.github.io/mediapipe/images/mobile/hand_landmarks.png
+export enum HandLandmarks {
+  WRIST = 0,
+  THUMB_CMC,
+  THUMB_MCP,
+  THUMB_IP,
+  THUMB_TIP,
+  INDEX_FINGER_MCP,
+  INDEX_FINGER_PIP,
+  INDEX_FINGER_DIP,
+  INDEX_FINGER_TIP,
+  MIDDLE_FINGER_MCP,
+  MIDDLE_FINGER_PIP,
+  MIDDLE_FINGER_DIP,
+  MIDDLE_FINGER_TIP,
+  RING_FINGER_MCP,
+  RING_FINGER_PIP,
+  RING_FINGER_DIP,
+  RING_FINGER_TIP,
+  PINKY_MCP,
+  PINKY_PIP,
+  PINKY_DIP,
+  PINKY_TIP
+}

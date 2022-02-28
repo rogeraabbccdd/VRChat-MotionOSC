@@ -93,10 +93,11 @@ const onHolisticResults = (results: HolisticResults): void => {
   // const faceLandmarks: NormalizedLandmarkList = results.faceLandmarks
   // Pose 2D Landmarks
   const pose2DLandmarks: NormalizedLandmarkList = results.poseLandmarks
-  // const rightHandLandmarks: NormalizedLandmarkList = results.rightHandLandmarks
-  // const leftHandLandmarks: NormalizedLandmarkList = results.leftHandLandmarks
+  const rightHandLandmarks: NormalizedLandmarkList = results.rightHandLandmarks
+  const leftHandLandmarks: NormalizedLandmarkList = results.leftHandLandmarks
   // Detect Jump
   motionControls.jump(pose2DLandmarks)
+  motionControls.item({ right: rightHandLandmarks, left: leftHandLandmarks })
   // Draw canvas
   if (!elWebcam.value || !elCanvasHolistic.value) return
   const canvasCtx = elCanvasHolistic.value.getContext('2d')

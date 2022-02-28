@@ -76,3 +76,77 @@ ipcMain.on('jump', () => {
     })
   }, 10)
 })
+
+// Item Grab
+ipcMain.on('GrabAxisRight', () => {
+  vrchatOSC.send({
+    address: '/input/GrabAxisRight',
+    args: {
+      type: 'f',
+      value: 1
+    }
+  })
+})
+
+// Item Release
+ipcMain.on('DropAxisRight', () => {
+  vrchatOSC.send({
+    address: '/input/GrabAxisRight',
+    args: {
+      type: 'f',
+      value: 0
+    }
+  })
+  vrchatOSC.send({
+    address: '/input/SpinHoldLR',
+    args: {
+      type: 'f',
+      value: 0
+    }
+  })
+  vrchatOSC.send({
+    address: '/input/MoveHoldFB',
+    args: {
+      type: 'f',
+      value: 0
+    }
+  })
+  vrchatOSC.send({
+    address: '/input/SpinHoldUD',
+    args: {
+      type: 'f',
+      value: 0
+    }
+  })
+})
+
+// Item move / spin
+ipcMain.on('SpinHoldLR', (event, value) => {
+  vrchatOSC.send({
+    address: '/input/SpinHoldLR',
+    args: {
+      type: 'f',
+      value
+    }
+  })
+})
+
+ipcMain.on('MoveHoldFB', (event, value) => {
+  vrchatOSC.send({
+    address: '/input/MoveHoldFB',
+    args: {
+      type: 'f',
+      value
+    }
+  })
+})
+
+ipcMain.on('SpinHoldUD', (event, value) => {
+  vrchatOSC.send({
+    address: '/input/SpinHoldUD',
+    args: {
+      type: 'f',
+      value
+    }
+  })
+})
