@@ -289,8 +289,8 @@ const formFace = reactive({
               a.nav-link.text-white(@click='page = 2' :class="{active: page === 2}") Face
         .col-10(v-if='page === 1')
           .row.mb-3
-            label.col-1.col-form-label(for="input-device") Device
-            .col-10
+            label.col-12.col-form-label(for="input-device") Device
+            .col-11
               select#input-device.form-select(v-model.number="currentDevice")
                 option(selected :value="-1") Select Device
                 option(v-for='(device, index) in devices' :key='device.deviceId' :value='index') {{ device.label }}
@@ -299,7 +299,7 @@ const formFace = reactive({
                 font-awesome-icon(:icon='["fas", "arrow-rotate-right"]')
         .col-10(v-if='page === 2')
           .row.mb-3(v-for='(value, key) in formFace' :key='key')
-            label.col-11.col-form-label(:for="'input-'+key") {{ key.charAt(0).toUpperCase() + key.slice(1) }}
-            .col-10
+            label.col-12.col-form-label(:for="'input-'+key") {{ key.charAt(0).toUpperCase() + key.slice(1) }}
+            .col-12
               input.form-control(type='text' v-model='formFace[key]' :id="'input-'+key")
 </template>
