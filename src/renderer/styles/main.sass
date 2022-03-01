@@ -1,6 +1,24 @@
+@import url(https://fonts.googleapis.com/css?family=Dosis:300,400,400i,700)
+
+$vrcColorPrimary: #1fd1ed
+$vrcColorSecondary: #798897
+$vrcColorSuccess: #67d781
+$vrcColorInfo: #007bff
+$vrcColorWarning: #fd7e14
+$vrcColorDanger: #ff5767
+$vrcColorLight: #f8f9fa
+$vrcColorDark: #2d363f
+$vrcColorBtnBackground: rgb(7, 36, 43)
+$vrcColorBtnBorder: rgb(5, 60, 72)
+$vrcColorBtnText: #6ae3f9
+$vrcColorBackground: #050505
+$vrcColorLink: #0e9bb1
+$vrcColorModalBackground: #10181d
+
 body
-  background: #1a2026
-  color: #fff
+  background: $vrcColorBackground
+  font-family: 'Dosis',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"
+
 #app
   display: flex
   height: 100vh
@@ -25,3 +43,49 @@ body
   width: 100%
   height: 100%
   display: none
+
+.text-vrc-primary
+  color: $vrcColorPrimary
+.text-vrc-danger
+  color: $vrcColorDanger
+.text-vrc-link
+  color: $vrcColorLink
+
+.btn-vrc
+  background: $vrcColorBtnBackground
+  border: 2px solid $vrcColorBtnBorder
+  color: $vrcColorBtnText
+  transition: all 0.15s ease-in-out
+  &:hover
+    color: $vrcColorBtnText
+    transform: scale(1.1)
+  &-danger
+    @extend .btn-vrc
+    color: $vrcColorDanger
+    &:hover
+      color: $vrcColorDanger
+  &-success
+    @extend .btn-vrc
+    color: $vrcColorSuccess
+    &:hover
+      color: $vrcColorSuccess
+
+.bg-vrc-primary
+  background: $vrcColorPrimary
+.bg-vrc-btn
+  background: $vrcColorBtnBackground
+.bg-vrc-modal
+  background: $vrcColorModalBackground
+
+.nav-link.nav-vrc
+  color: $vrcColorLink
+  &.active
+    color: $vrcColorPrimary
+    background: $vrcColorBtnBackground
+    border: 2px solid $vrcColorBtnBorder
+
+.form-control, .form-select
+  background: $vrcColorDark !important
+  color: $vrcColorLight
+  &:focus
+    color: $vrcColorLight

@@ -150,3 +150,15 @@ ipcMain.on('SpinHoldUD', (event, value) => {
     }
   })
 })
+
+// Turn
+ipcMain.on('LookHorizontal', (event, value) => {
+  vrchatOSC.send({
+    address: '/input/LookHorizontal',
+    args: {
+      type: 'f',
+      value
+    }
+  })
+})
+

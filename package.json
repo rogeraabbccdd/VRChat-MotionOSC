@@ -28,6 +28,7 @@
     "@mediapipe/camera_utils": "^0.3.1640029074",
     "@mediapipe/drawing_utils": "^0.3.1620248257",
     "@mediapipe/holistic": "^0.5.1635989137",
+    "@popperjs/core": "^2.11.2",
     "bootstrap": "^5.1.3",
     "face-api.js": "^0.22.2",
     "fingerpose": "^0.1.0",
