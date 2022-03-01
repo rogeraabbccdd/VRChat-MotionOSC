@@ -5,7 +5,7 @@
 // Electron
 import { ipcRenderer } from './electron'
 // Vue
-import { reactive, ref, nextTick, watch, onMounted } from 'vue'
+import { reactive, ref, nextTick, watch } from 'vue'
 // Face API
 import * as faceAPI from 'face-api.js'
 // Mediapipe
@@ -19,6 +19,7 @@ import {
 } from '@mediapipe/holistic'
 import { Camera } from '@mediapipe/camera_utils'
 import { drawLandmarks, drawConnectors } from '@mediapipe/drawing_utils'
+// Motions
 import * as motionControls from './motions'
 
 // ***********************************
@@ -90,14 +91,16 @@ const initHolistic = async (): Promise<void> => {
 const onHolisticResults = (results: HolisticResults): void => {
   if (!results) return
   // Get landmarks from result
-  // const faceLandmarks: NormalizedLandmarkList = results.faceLandmarks
-  // Pose 2D Landmarks
+  const faceLandmarks: NormalizedLandmarkList = results.faceLandmarks
   const pose2DLandmarks: NormalizedLandmarkList = results.poseLandmarks
   const rightHandLandmarks: NormalizedLandmarkList = results.rightHandLandmarks
   const leftHandLandmarks: NormalizedLandmarkList = results.leftHandLandmarks
   // Detect Jump
   motionControls.jump(pose2DLandmarks)
+  // Detect item control gestures
   motionControls.item({ right: rightHandLandmarks, left: leftHandLandmarks })
+  // Detect face turn
+  motionControls.turn(faceLandmarks)
   // Draw canvas
   if (!elWebcam.value || !elCanvasHolistic.value) return
   const canvasCtx = elCanvasHolistic.value.getContext('2d')
@@ -254,6 +257,7 @@ void initHolistic()
 // Pages and forms
 // ***********************************
 const page = ref<number>(1)
+const settings = ref<boolean>(false)
 const formFace = reactive({
   parameter: 'Change_LockFaceReaction',
   neutral: 0,
@@ -270,7 +274,7 @@ const formFace = reactive({
 .container
   .row
     .col-12.mb-3
-      h1.text-center VRChat Motion Controller
+      h1.text-center.text-vrc-primary VRChat Motion Controller
     .col-12.mb-3
       .text-center#guide(ref='elGuide')
         //- Video element for webcam stream
@@ -278,29 +282,41 @@ const formFace = reactive({
         canvas#canvas-holistic(ref="elCanvasHolistic" width="640" height="480")
         canvas#canvas-faceapi(ref="elCanvasFaceApi" width="640" height="480")
     .col-12.mb-3.text-center
-        input.btn.btn-danger.mx-1(type='button' value='Stop' v-if='isTracking' @click='stop')
-        input.btn.btn-success.mx-1(type='button' value='Start' v-else @click='start' :disabled="currentDevice === -1")
-    .col-12.mb-3
-      .row
-        .col-2
-          ul.nav.nav-pills.flex-column
-            li.nav-item
-              a.nav-link.text-white(@click='page = 1' :class="{active: page === 1}") Webcam
-            li.nav-item
-              a.nav-link.text-white(@click='page = 2' :class="{active: page === 2}") Face
-        .col-10(v-if='page === 1')
-          .row.mb-3
-            label.col-12.col-form-label(for="input-device") Device
-            .col-11
-              select#input-device.form-select(v-model.number="currentDevice")
-                option(selected :value="-1") Select Device
-                option(v-for='(device, index) in devices' :key='device.deviceId' :value='index') {{ device.label }}
-            .col-1
-              button.btn.btn-primary.mx-1(type='button' @click='getDevices')
-                font-awesome-icon(:icon='["fas", "arrow-rotate-right"]')
-        .col-10(v-if='page === 2')
-          .row.mb-3(v-for='(value, key) in formFace' :key='key')
-            label.col-12.col-form-label(:for="'input-'+key") {{ key.charAt(0).toUpperCase() + key.slice(1) }}
-            .col-12
-              input.form-control(type='text' v-model='formFace[key]' :id="'input-'+key")
+        button.btn.btn-vrc-danger.mx-1(type='button' v-if='isTracking' @click='stop')
+          font-awesome-icon(:icon='["fas", "stop"]')
+        button.btn.btn-vrc-success.mx-1(type='button' v-else @click='start' :disabled="currentDevice === -1")
+          font-awesome-icon(:icon='["fas", "play"]')
+        button.btn.btn-vrc.mx-1(type='button' data-bs-toggle="modal" data-bs-target="#modal-settings")
+          font-awesome-icon(:icon='["fas", "gear"]')
+  #modal-settings.modal.fade
+    .modal-dialog.modal-fullscreen 
+      .modal-content.bg-vrc-modal
+        .modal-header
+          h5.modal-title.h4.text-vrc-primary Settings
+          button.btn-vrc-danger(type="button" data-bs-dismiss="modal" aria-label="Close")
+            font-awesome-icon(:icon='["fas", "xmark"]')
+        .modal-body.row
+          .col-2
+            ul.nav.nav-pills.flex-column
+              li.nav-item
+                a.nav-link.nav-vrc(@click='page = 1' :class="{active: page === 1}") Webcam
+              li.nav-item
+                a.nav-link.nav-vrc(@click='page = 2' :class="{active: page === 2}") Face
+          .col-10(v-if='page === 1')
+            .row.mb-3
+              label.col-12.col-form-label.text-vrc-primary(for="input-device") Device
+              .col-11
+                select#input-device.form-select(v-model.number="currentDevice")
+                  option(selected :value="-1") Select Device
+                  option(v-for='(device, index) in devices' :key='device.deviceId' :value='index') {{ device.label }}
+              .col-1
+                button.btn.btn-vrc.mx-1(type='button' @click='getDevices')
+                  font-awesome-icon(:icon='["fas", "arrow-rotate-right"]')
+          .col-10(v-if='page === 2')
+            .row.mb-3(v-for='(value, key) in formFace' :key='key')
+              label.col-12.col-form-label.text-vrc-primary(:for="'input-'+key") {{ key.charAt(0).toUpperCase() + key.slice(1) }}
+              .col-12
+                input.form-control(type='text' v-model='formFace[key]' :id="'input-'+key")
+        .modal-footer
+          button.btn.btn-vrc-danger(type='button' data-bs-dismiss='modal') Close
 </template>
