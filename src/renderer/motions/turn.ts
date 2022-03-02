@@ -9,7 +9,6 @@ export default (landmarks: NormalizedLandmarkList) => {
     video: '#webcam'
   }) : undefined 
   if (!riggedFace) return
-  console.log(riggedFace.head.degrees.y > 20 ? 'right' : riggedFace.head.degrees.y < -20 ? 'left' : '')
   if (riggedFace.head.degrees.y > 30) {
     // Turn right
     ipcRenderer.send('LookHorizontal', 1)
