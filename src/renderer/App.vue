@@ -293,7 +293,7 @@ const formFace = reactive({
       .modal-content.bg-vrc-modal
         .modal-header
           h5.modal-title.h4.text-vrc-primary Settings
-          button.btn-vrc-danger(type="button" data-bs-dismiss="modal" aria-label="Close")
+          button.btn.btn-vrc-danger(type="button" data-bs-dismiss="modal" aria-label="Close")
             font-awesome-icon(:icon='["fas", "xmark"]')
         .modal-body.row
           .col-2
