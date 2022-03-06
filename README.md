@@ -13,7 +13,7 @@ https://user-images.githubusercontent.com/15815422/155885894-fafbb628-0d9a-4d5a-
     - [ ] Rotate
   - [x] Jump.
   - [x] Look left / right.
-  - [ ] Move.
+  - [x] Move.
 
 ## Install
 - Install [Node.js](https://nodejs.org/en/)

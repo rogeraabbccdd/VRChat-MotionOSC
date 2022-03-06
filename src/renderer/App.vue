@@ -103,6 +103,8 @@ const onHolisticResults = (results): void => {
   motionControls.item({ right: rightHandLandmarks, left: leftHandLandmarks })
   // Detect face turn
   motionControls.turn(faceLandmarks)
+  // Detect body move
+  motionControls.move(pose2DLandmarks)
   // Draw canvas
   if (!elWebcam.value || !elCanvasHolistic.value) return
   const canvasCtx = elCanvasHolistic.value.getContext('2d')
@@ -197,6 +199,7 @@ const getDeviceStream = async (): Promise<void> => {
 const isTracking = ref<boolean>(false)
 // Start tracking
 const start = async (): Promise<void> => {
+  motionControls.resetMovePos()
   isTracking.value = true
   // Get video stream from device
   await getDeviceStream()

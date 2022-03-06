@@ -162,3 +162,49 @@ ipcMain.on('LookHorizontal', (event, value) => {
   })
 })
 
+// Move
+ipcMain.on('MoveRight', (event, value) => {
+  vrchatOSC.send({
+    address: '/input/MoveRight',
+    args: {
+      type: 'i',
+      value
+    }
+  })
+})
+ipcMain.on('MoveLeft', (event, value) => {
+  vrchatOSC.send({
+    address: '/input/MoveLeft',
+    args: {
+      type: 'i',
+      value
+    }
+  })
+})
+ipcMain.on('MoveForward', (event, value) => {
+  vrchatOSC.send({
+    address: '/input/MoveForward',
+    args: {
+      type: 'i',
+      value
+    }
+  })
+})
+ipcMain.on('MoveBackward', (event, value) => {
+  vrchatOSC.send({
+    address: '/input/MoveBackward',
+    args: {
+      type: 'i',
+      value
+    }
+  })
+})
+ipcMain.on('Run', (event, value) => {
+  vrchatOSC.send({
+    address: '/input/Run',
+    args: {
+      type: 'i',
+      value
+    }
+  })
+})
