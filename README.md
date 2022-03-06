@@ -8,7 +8,11 @@ https://user-images.githubusercontent.com/15815422/155885894-fafbb628-0d9a-4d5a-
 - [x] Face expression recognition.
 - [ ] Motion controls
   - [ ] Hand gestures to interact with items.
+    - [x] Forward / Backward
+    - [x] Spin
+    - [ ] Rotate
   - [x] Jump.
+  - [x] Look left / right.
   - [ ] Move.
 
 ## Install
