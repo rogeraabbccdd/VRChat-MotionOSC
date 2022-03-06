@@ -8,17 +8,18 @@ import { ipcRenderer } from './electron'
 import { reactive, ref, nextTick, watch } from 'vue'
 // Face API
 import * as faceAPI from 'face-api.js'
-// Mediapipe
-import {
-  Holistic,
-  Results as HolisticResults,
-  NormalizedLandmarkList,
-  POSE_CONNECTIONS,
-  HAND_CONNECTIONS,
-  FACEMESH_TESSELATION
-} from '@mediapipe/holistic'
-import { Camera } from '@mediapipe/camera_utils'
-import { drawLandmarks, drawConnectors } from '@mediapipe/drawing_utils'
+// Mediapipe packages are imported in index.html
+// Import them here cause error 'TypeError: b.Holistic is not a constructor'
+// import {
+//   Holistic,
+//   Results as HolisticResults,
+//   NormalizedLandmarkList,
+//   POSE_CONNECTIONS,
+//   HAND_CONNECTIONS,
+//   FACEMESH_TESSELATION
+// } from '@mediapipe/holistic'
+// import { Camera } from '@mediapipe/camera_utils'
+// import { drawLandmarks, drawConnectors } from '@mediapipe/drawing_utils'
 // Motions
 import * as motionControls from './motions'
 
@@ -41,9 +42,9 @@ const faceOptions = new faceAPI.TinyFaceDetectorOptions({
 })
 // Initialize face API
 const initFaceAPI = async (): Promise<void> => {
-  await faceAPI.nets.tinyFaceDetector.loadFromUri('/models')
-  await faceAPI.loadFaceLandmarkModel('/models')
-  await faceAPI.loadFaceExpressionModel('/models')
+  await faceAPI.nets.tinyFaceDetector.loadFromUri('./models')
+  await faceAPI.loadFaceLandmarkModel('./models')
+  await faceAPI.loadFaceExpressionModel('./models')
 }
 // Detect faces
 const RunFaceExpression = async (): Promise<void> => {
@@ -67,7 +68,8 @@ const RunFaceExpression = async (): Promise<void> => {
 // ***********************************
 // Mediapipe
 // ***********************************
-// some keys are missing in HolisticResults
+const mpWindow: Window = window
+const { Holistic, Camera, drawLandmarks, drawConnectors, POSE_CONNECTIONS, HAND_CONNECTIONS, FACEMESH_TESSELATION } = mpWindow
 const holistic = new Holistic({
   locateFile (file) {
     return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1635989137/${file}`
@@ -82,19 +84,19 @@ holistic.setOptions({
   refineFaceLandmarks: true
 })
 // Set camera
-let camera: Camera|null = null
+let camera: any|null = null
 // Init holistic
 const initHolistic = async (): Promise<void> => {
   holistic.onResults(onHolisticResults)
   await holistic.initialize()
 }
-const onHolisticResults = (results: HolisticResults): void => {
+const onHolisticResults = (results): void => {
   if (!results) return
   // Get landmarks from result
-  const faceLandmarks: NormalizedLandmarkList = results.faceLandmarks
-  const pose2DLandmarks: NormalizedLandmarkList = results.poseLandmarks
-  const rightHandLandmarks: NormalizedLandmarkList = results.rightHandLandmarks
-  const leftHandLandmarks: NormalizedLandmarkList = results.leftHandLandmarks
+  const faceLandmarks: any = results.faceLandmarks
+  const pose2DLandmarks: any = results.poseLandmarks
+  const rightHandLandmarks: any = results.rightHandLandmarks
+  const leftHandLandmarks: any = results.leftHandLandmarks
   // Detect Jump
   motionControls.jump(pose2DLandmarks)
   // Detect item control gestures
