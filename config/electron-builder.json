@@ -1,5 +1,5 @@
 {
-    "appId": "com.electron.app",
+    "appId": "com.rogeraabbccdd.vrcmotionosc",
     "directories": {
         "output": "dist"
     },
@@ -7,7 +7,7 @@
         "oneClick": false,
         "perMachine": false,
         "allowToChangeInstallationDirectory": true,
-        "shortcutName": "Electron App"
+        "shortcutName": "VRC Motion OSC"
     },
     "win": {
         "target": "nsis"
