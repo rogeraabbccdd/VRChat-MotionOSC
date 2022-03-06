@@ -22,6 +22,8 @@ import * as faceAPI from 'face-api.js'
 // import { drawLandmarks, drawConnectors } from '@mediapipe/drawing_utils'
 // Motions
 import * as motionControls from './motions'
+// Version
+import { version } from '../../package.json'
 
 // ***********************************
 // HTML Elements
@@ -273,13 +275,14 @@ const formFace = reactive({
   disgusted: 19,
   surprised: 8
 })
+const v = ref<string>(version)
 </script>
 
 <template lang="pug">
 .container
   .row
     .col-12.mb-3
-      h1.text-center.text-vrc-primary VRChat Motion Controller
+      h1.text-center.text-vrc-primary VRChat Motion Controller v{{ v }}
     .col-12.mb-3
       .text-center#guide(ref='elGuide')
         //- Video element for webcam stream
